@@ -26,7 +26,7 @@ class Bakery(db.Model, SerializerMixin):
 class BakedGood(db.Model, SerializerMixin):
     __tablename__ = 'baked_goods'
 
-    serialize_rules = ('-bakery.baked_goods',)
+    #serialize_rules = ('-bakery.baked_goods',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
