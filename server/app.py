@@ -80,7 +80,7 @@ def bakery_by_id(id):
 
 @app.route('/baked_goods/by_price')
 def baked_goods_by_price():
-    baked_goods = BakedGood.query.options(joinedload(BakedGood.bakery)).order_by(BakedGood.price.desc()).all()
+    baked_goods = BakedGood.query.order_by(BakedGood.price.desc()).all()
     baked_goods_list = []
     for good in baked_goods:
         good_data = {
@@ -89,7 +89,7 @@ def baked_goods_by_price():
                 "id": good.bakery.id,
                 "name": good.bakery.name,
                 "updated_at": good.bakery.updated_at
-            } if good.bakery else None,
+            },
             "bakery_id": good.bakery_id,
             "created_at": good.created_at,
             "id": good.id,
@@ -106,7 +106,7 @@ def baked_goods_by_price():
 
 @app.route('/baked_goods/most_expensive')
 def most_expensive_baked_good():
-    expensive_good = BakedGood.query.options(joinedload(BakedGood.bakery)).order_by(BakedGood.price.desc()).first()
+    expensive_good = BakedGood.query.order_by(BakedGood.price.desc()).first()
     if expensive_good and expensive_good.bakery: 
         expensive_good_data = {
             'bakery': {
@@ -123,11 +123,7 @@ def most_expensive_baked_good():
             "updated_at": expensive_good.updated_at
         }
     else: 
-        expensive_good_data = {
-            "id": None,
-            "name": None,
-            "price": None,
-        }
+        expensive_good_data = {}
     
     response = make_response(jsonify(expensive_good_data))
     response.headers['Content-Type'] = 'application/json'
